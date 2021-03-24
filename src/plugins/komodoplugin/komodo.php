@@ -24,7 +24,7 @@ function komodo_page_content(){
 //Returns the layout of the form
 function komodo_form() {	 
     $content = '';
-    $content .= '<form action="/" method="post" class="komodo-form-wrapper">';
+    $content .= '<form action="/" method="POST" class="komodo-form-wrapper">';
     $content .= '<label for="komodo_name">Name</label>';
     $content .= '<input type="text" name="komodo_name" placeholder="Name">';
     $content .= '<label for="komodo_address">Address</label>';
@@ -45,30 +45,24 @@ add_shortcode('komodo', 'komodo_form');
 
 function komodo_form_capture() {
     if(isset($_POST['komodo_submit'])){
-        $name = sanitize_text_field($_POST['komodo_name']);
-        $address = sanitize_text_field($_POST['komodo_address']);
-        $email = sanitize_email($_POST['komodo_email']);
-        $telephone = sanitize_text_field($_POST['komodo_telephone']);
-        $message = sanitize_text_field($_POST['komodo_message']);
+        $serverName = "db";
+        $dBUser = "komodotestuser";
+        $dBPass = "komodotestpass";
+        $dBName = "komodotestdb";
 
-        $connect = mysql_connect('http://localhost:3306', 'komodotestuser', 'komodotestpass'); 
-        if (!$connect) { 
-            die('Connection Failed: ' . mysql_error());
-        }
+        $connect = mysqli_connect($serverName, $dBUser, $dBPass, $dBName);
 
-        if(!mysqli_select_db($connect, 'komodotestdb')){
-            echo 'Database not selected';
-        }
-
-        $sql = "INSERT INTO komodo_submissions (komodo_name,komodo_address,komodo_email,komodo_telephone,komodo_message) VALUES ('$name','$address','$email','$telephone','$message')";
-
-        if(!mysqli_query($connect,$sql)){
-            echo 'Data not inserted';
+        if(!$connect) {
+            die("Connection failed: " . mysqli_connect_error());
         } else {
-            echo 'Data inserted';
+            $name = $_POST['komodo_name'];
+            $address = $_POST['komodo_address'];
+            $email = $_POST['komodo_email'];
+            $telephone = $_POST['komodo_telephone'];
+            $message = $_POST['komodo_message'];
+            $user_info = "INSERT INTO komodo_submissions (komodo_name, komodo_address, komodo_email, komodo_telephone, komodo_message) VALUES ('$name', '$address', '$email', '$telephone', '$message')";
+            mysqli_query($connect, $user_info);
         }
-    }
-
-    header("refresh:2", "url=/");
+    }   
 }
 add_action('wp_head', 'komodo_form_capture');
