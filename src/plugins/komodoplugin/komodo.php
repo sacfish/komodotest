@@ -9,11 +9,9 @@ Author: Isaac Elgie
 Author URI: 
 */
 
-
-
 //Add a tab in the Wordpress dashboard to display data from the form
 function komodo_add_page() {
-    add_menu_page('Komodo Test Plugin Page', 'Komodo Test', 'manage_options', 'komodo-test', 'komodo_page_content', 'dashicons-email-alt2', 26);
+    add_menu_page('Komodo Test Plugin Page', 'Komodo Plugin', 'manage_options', 'komodo-test', 'komodo_page_content', 'dashicons-email-alt2', 26);
 }
 add_action('admin_menu', 'komodo_add_page');
 

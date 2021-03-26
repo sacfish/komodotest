@@ -1,30 +1,52 @@
 <style>
     .komodo-entries{
-        width: 100%;
+        width: calc(100% - 20px);
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 9px rgba(0,0,0,0.05);
+    }
+
+    .komodo-entries thead{
+        background: #204484;
+    }
+
+    .komodo-entries tbody{
+        background: #fff;
+    }
+
+    .komodo-entry:nth-child(2n+2){
+        background: #f2f8ff;
+    }
+
+    .komodo-entries th,
+    .komodo-entries td{
+        text-align: left;
+        color: #010101;
+        font-size: 1.3em;
+        padding: 10px 20px;
+        vertical-align: top;
+        line-height: 1.4;
     }
 
     .komodo-entries th{
-        text-align: left;
-        color: #010101;
+        color: #fff;
     }
 
-    .komodo-entries th:first-of-type,
-    .komodo-entries td:first-of-type{
-        color: #010101;
-        font-weight: 700;
-        text-align: center;
+    .k_msg,
+    .k_msg_head{
+        width: 30%;
     }
 </style>
 <h1 class="komodo-title">Komodo Form Entries</h1>
 <table class="komodo-entries">
     <thead>
         <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Email</th>
-            <th>Telephone</th>
-            <th>Message</th>
+            <th class="k_name_head">Name</th>
+            <th class="k_address_head">Address</th>
+            <th class="k_email_head">Email</th>
+            <th class="k_telephone_head">Telephone</th>
+            <th class="k_msg_head">Message</th>
         </tr>
     </thead>
     <tbody>
@@ -35,7 +57,7 @@
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck > 0){
             while($row = mysqli_fetch_assoc($result)){
-                echo "<tr class='komodo-entry'>" . "<td class='k_id'>" . $row['komodo_id'] . "</td>" . "<td class='k_name'>" . $row['komodo_name'] . "</td>" . "<td class='k_address'>" . $row['komodo_address'] . "</td>" . "<td class='k_email'>" . $row['komodo_email'] . "</td>" . "<td class='k_telephone'>" . $row['komodo_telephone'] . "</td>" . "<td class='k_msg'>" . $row['komodo_message'] . "</td>" . "</tr>";
+                echo "<tr class='komodo-entry'>" . "<td class='k_name'>" . $row['komodo_name'] . "</td>" . "<td class='k_address'>" . $row['komodo_address'] . "</td>" . "<td class='k_email'>" . $row['komodo_email'] . "</td>" . "<td class='k_telephone'>" . $row['komodo_telephone'] . "</td>" . "<td class='k_msg'>" . $row['komodo_message'] . "</td>" . "</tr>";
             }
         }
     ?>

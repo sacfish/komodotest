@@ -1,3 +1,63 @@
+<style>
+    .komodo-form-wrapper{
+        width: 100% !important;
+        max-width: 600px !important;
+        margin: 0 auto 15px;
+    }
+
+    .komodo-form-wrapper label{
+        display: none;
+    }
+
+    .komodo-form-wrapper input,
+    .komodo-form-wrapper textarea{
+        width: 100%;
+        margin-bottom: 15px;
+        color: #204484;
+        background: rgba(0,0,0,0);
+        border: none;
+        border-bottom: solid 1px #204484;
+        padding: 15px;
+        outline: none;
+    }
+
+    .komodo-form-wrapper input::placeholder,
+    .komodo-form-wrapper textarea::placeholder{
+        color: #555;
+        transition: all ease 250ms;
+    }
+
+    .komodo-form-wrapper input:active::placeholder,
+    .komodo-form-wrapper input:focus::placeholder,
+    .komodo-form-wrapper textarea:active::placeholder,
+    .komodo-form-wrapper textarea:focus::placeholder{
+        font-size: 0;
+    }
+
+    .komodo-form-wrapper input:active,
+    .komodo-form-wrapper input:focus,
+    .komodo-form-wrapper textarea:active,
+    .komodo-form-wrapper textarea:focus{
+        background: rgba(255,255,255,0.6);
+    }
+
+    .komodo-success,
+    .komodo-error {
+        background: #c3e5c3;
+        border: solid 1px #7ec87e;
+        color: #010101;
+        padding: 15px;
+        font-size: 20px;
+        font-family: 'Open Sans', sans-serif;
+        max-width: 600px !important;
+        margin: 0 auto;
+    }
+
+    .komodo-error{
+        background: #e5c2c2;
+        border-color: #c87e7e;
+    }
+</style>
 <form action method="POST" class="komodo-form-wrapper">
     <label for="komodo_name">Name</label>
     <input type="text" name="komodo_name" placeholder="Name">
