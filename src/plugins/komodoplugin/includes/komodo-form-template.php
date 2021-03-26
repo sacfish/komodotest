@@ -1,11 +1,43 @@
-<?php 
-$komodoEntry = include_once(plugin_dir_path( __FILE__ ) . '../includes/komodo-form-entry.php');
-?>
-<form action="<?php $komodoEntry ?>" method="post" class="komodo-form-wrapper">
-    <input type="text" placeholder="Name">
-    <input type="text" placeholder="Address">
-    <input type="email" placeholder="Email">
-    <input type="tel" placeholder="Telephone">
-    <textarea placeholder="Message..." rows="5"></textarea>
-    <button type="submit" href="#">Submit</button>
+<form action method="POST" class="komodo-form-wrapper">
+    <label for="komodo_name">Name</label>
+    <input type="text" name="komodo_name" placeholder="Name">
+    <label for="komodo_address">Address</label>
+    <input type="text" name="komodo_address" placeholder="Address">
+    <label for="komodo_email">Email</label>
+    <input type="email" name="komodo_email" placeholder="Email">
+    <label for="komodo_telephone">Telephone</label>
+    <input type="tel" name="komodo_telephone" placeholder="Telephone">
+    <label for="komodo_message">Message</label>
+    <textarea name="komodo_message" placeholder="Message..." rows="5"></textarea>
+    <button type="submit" name="komodo_submit" href="#">Submit</button>
 </form>
+<?php
+    include_once 'komodo-connect.php';
+    if(isset($_POST['komodo_submit'])){
+        $name = sanitize_text_field($_POST['komodo_name']);
+        $address = sanitize_text_field($_POST['komodo_address']);
+        $email = filter_var($_POST['komodo_email'], FILTER_SANITIZE_EMAIL);
+        $telephone = filter_var($_POST['komodo_telephone'], FILTER_SANITIZE_NUMBER_INT);
+        $message = sanitize_text_field($_POST['komodo_message']);
+
+        if(empty($name) || empty($address) ||  empty($email) || empty($telephone) || empty($message)){
+            //If any field is left blank, display error message
+            echo "<div class='komodo-error'>Please fill out all fields!</div>";
+        } else {
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                //If an invalid email format is used, display error message
+                echo "<div class='komodo-error'>Invalid Email address, please try again.</div>";
+            } else {
+                echo "<div class='komodo-success'>Thanks for your submission!</div>";
+                if(!$connect) {
+                    //If connection cannot be made, display error message
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    //If connection CAN be made, insert data into table "komodo_submissions"
+                    $user_info = "INSERT INTO komodo_submissions (komodo_name, komodo_address, komodo_email, komodo_telephone, komodo_message) VALUES ('$name', '$address', '$email', '$telephone', '$message')";
+                    mysqli_query($connect, $user_info);
+                }
+            }
+            
+        }
+    }
